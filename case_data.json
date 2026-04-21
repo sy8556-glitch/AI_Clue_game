@@ -1,0 +1,34 @@
+{
+  "case_id": 1,
+  "title": "The Stolen Ruby",
+  "summary": "A priceless ruby disappeared from the study at 9 PM.",
+  "suspects": [
+    {
+      "id": 1,
+      "name": "James",
+      "role": "Butler"
+    },
+    {
+      "id": 2,
+      "name": "Julia",
+      "role": "Niece"
+    },
+    {
+      "id": 3,
+      "name": "Marcus",
+      "role": "Guest"
+    }
+  ],
+  "clues": [
+    {
+      "id": 1,
+      "title": "Broken Glass",
+      "description": "Glass shattered near the study door."
+    },
+    {
+      "id": 2,
+      "title": "Missing Key",
+      "description": "The spare key is gone."
+    }
+  ]
+}
