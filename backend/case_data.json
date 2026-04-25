@@ -6,17 +6,20 @@
     {
       "id": 1,
       "name": "James",
-      "role": "Butler"
+      "role": "Butler",
+      "personality" : "겁이 많고 말을 돌려서 한다"
     },
     {
       "id": 2,
       "name": "Julia",
-      "role": "Niece"
+      "role": "Niece",
+      "personality" : "기가 세고 쿨하며 친구들이 많다"
     },
     {
       "id": 3,
       "name": "Marcus",
-      "role": "Guest"
+      "role": "Guest",
+      "personality" : "조용하고 차분하며 친구가 적다"
     }
   ],
   "clues": [
