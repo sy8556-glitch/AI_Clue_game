@@ -97,13 +97,15 @@ def chat_with_ai(message: str, suspect_id: int | None = None):
 # 요청 형식 : POST /guess?suspect_id=2
 # 사용자가 용의자를 선택해서 /guess 로 보내면, 정답인지 아닌지 판단 후 결과 반환
 @app.post("/guess")
-def check_guess(suspect_id : int):
-    correct_suspect_id = case_data["answer"]["id"]
+def check_guess(suspect_id : int, location : str, answer : str):
+    correct_suspect_id = case_data["answer"]["suspect_id"]
+    c_l = case_data["answer"]["location"]
+    c_w = case_data["answer"]["weapon"]
 
-    if suspect_id == correct_suspect_id :
+    if suspect_id == correct_suspect_id and location == c_l and answer == c_w :
         return {
             "correct": True,
-            "message": "정답입니다! 범인을 맞혔어요."
+            "message": "정답입니다! 정답을 맞혔어요."
         }
     else:
         return {

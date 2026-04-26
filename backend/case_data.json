@@ -7,34 +7,76 @@
       "id": 1,
       "name": "James",
       "role": "Butler",
-      "personality" : "겁이 많고 말을 돌려서 한다"
+      "personality" : "겁이 많고 말을 돌려서 한다",
+      "importance" : 10
     },
     {
       "id": 2,
       "name": "Julia",
       "role": "Niece",
-      "personality" : "기가 세고 쿨하며 친구들이 많다"
+      "personality" : "기가 세고 쿨하며 친구들이 많다",
+      "importance" : 10
     },
     {
       "id": 3,
       "name": "Marcus",
       "role": "Guest",
-      "personality" : "조용하고 차분하며 친구가 적다"
+      "personality" : "조용하고 차분하며 친구가 적다",
+      "importance" : 10
+
     }
   ],
-  "clues": [
+  "location" : [
     {
       "id": 1,
-      "title": "Broken Glass",
-      "description": "Glass shattered near the study door."
+      "name" : "Living Room",
+      "importance" : 10
+
     },
     {
-      "id": 2,
-      "title": "Missing Key",
-      "description": "The spare key is gone."
+      "id" : 2,
+      "name" : "Kitchen",
+      "importance" : 10
+
+    },
+    {
+      "id" :3,
+      "name" : "Library",
+      "importance" : 10
+
     }
   ],
+  "weapons" : [
+    {
+      "id" :1,
+      "name" : "Knife",
+      "importance" : 10
+
+    },
+    {
+      "id" :2,
+      "name" : "Poison",
+      "importance" : 10
+
+    },
+    {
+      "id" :3,
+      "name" :  "Rope",
+      "importance" : 10
+
+    }
+  ],
+
+  "clues": [
+      "Living Room",
+      "Knife",
+      "Poison"
+
+  ],
+
   "answer" : {
-    "id": 3
+    "suspect_id" : 1,
+    "location" : "Kitchen",
+    "weapon" : "Rope"
   }
 }
