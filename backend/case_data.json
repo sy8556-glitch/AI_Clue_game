@@ -8,21 +8,21 @@
       "name": "James",
       "role": "Butler",
       "personality" : "겁이 많고 말을 돌려서 한다",
-      "importance" : 10
+      "importance" :  5
     },
     {
       "id": 2,
       "name": "Julia",
       "role": "Niece",
       "personality" : "기가 세고 쿨하며 친구들이 많다",
-      "importance" : 10
+      "importance" :  5
     },
     {
       "id": 3,
       "name": "Marcus",
       "role": "Guest",
       "personality" : "조용하고 차분하며 친구가 적다",
-      "importance" : 10
+      "importance" :  5
 
     }
   ],
@@ -30,19 +30,19 @@
     {
       "id": 1,
       "name" : "Living Room",
-      "importance" : 10
+      "importance" :  5
 
     },
     {
       "id" : 2,
       "name" : "Kitchen",
-      "importance" : 10
+      "importance" :  5
 
     },
     {
       "id" :3,
       "name" : "Library",
-      "importance" : 10
+      "importance" : 5
 
     }
   ],
@@ -50,27 +50,39 @@
     {
       "id" :1,
       "name" : "Knife",
-      "importance" : 10
+      "importance" : 5
 
     },
     {
       "id" :2,
       "name" : "Poison",
-      "importance" : 10
+      "importance" : 5
 
     },
     {
       "id" :3,
       "name" :  "Rope",
-      "importance" : 10
+      "importance" :  5
 
     }
   ],
 
   "clues": [
-      "Living Room",
-      "Knife",
-      "Poison"
+    { 
+      "id" : 1,
+      "type" : "location",
+      "name" : "Living Room"
+    },
+    {
+      "id" : 1,
+      "type" : "weapon",
+      "name" : "Knife"
+    },
+    {
+      "id" : 1,
+      "type" : "weapon",
+      "name" : "Poison"
+    }
   ],
 
   "answer" : {

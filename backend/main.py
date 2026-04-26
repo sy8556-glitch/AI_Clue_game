@@ -44,9 +44,17 @@ def get_suspects():
     return case_data["suspects"]
 
 
-# 단서 리스트 반환
+# 단서 리스트 반환 & 단서를 반영하기
 @app.get("/clues")
 def get_clues():
+    for clue in case_data["clues"] :
+        clue_type = clue["type"] 
+        for single_case in case_data[clue_type] :
+            if single_case["name"] == clue["name"] :
+                single_case["importance"] = 0 
+            else :
+                continue
+
     return case_data["clues"]
 
 
@@ -112,7 +120,7 @@ def check_guess(suspect_id: int, location_id: int, weapon_id: int):
                 if _["id"] == suspicious_id :
                     _["importance"] = 0
                 else :
-                    continue
+                    _["importance"] +=1
 
         # location clue 데이터 반영
         for location in player["location_ids"] :
@@ -121,7 +129,7 @@ def check_guess(suspect_id: int, location_id: int, weapon_id: int):
                 if _["id"] == location_id :
                     _["importance"] = 0
                 else :
-                    continue
+                    _["importance"] +=1
         
         # weapon clue 데이터 반영
         for weapon in player["weapon_ids"] :
@@ -130,7 +138,7 @@ def check_guess(suspect_id: int, location_id: int, weapon_id: int):
                 if _["id"] == weapon_id :
                     _["importance"] = 0
                 else :
-                    continue
+                    _["importance"] +=1
         
 
 # submit answer 함수
