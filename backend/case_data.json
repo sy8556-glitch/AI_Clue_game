@@ -85,9 +85,9 @@
     }
   ],
 
-  "answer" : {
-    "suspect_id" : 1,
-    "location" : "Kitchen",
-    "weapon" : "Rope"
+  "answer": {
+    "suspect_id": 1,
+    "location_id": 2,
+    "weapon_id": 3
   }
 }

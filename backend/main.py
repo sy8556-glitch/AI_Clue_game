@@ -109,53 +109,57 @@ def chat_with_ai(message: str, suspect_id: int | None = None):
 
 # 사용자가 용의자를 선택해서 /guess 로 보내면, 정답인지 아닌지 판단 후 결과 반환
 @app.post("/guess")
-def check_guess(suspect_id: int, location_id: int, weapon_id: int):
+def check_guess(player_id: int, suspect_id: int, location_id: int, weapon_id: int):
     players = user_data["players"]
-    for player in players : 
 
-        # suspects clue 데이터 반영
-        for suspicious_id in player["suspect_ids"] :
-            if suspicious_id == suspect_id :
-               for _ in case_data["suspects"] :
-                if _["id"] == suspicious_id :
-                    _["importance"] = 0
-                else :
-                    _["importance"] +=1
+    for player in players:
+        if player["player_id"] == player_id:
+            continue
 
-        # location clue 데이터 반영
-        for location in player["location_ids"] :
-            if location == location_id :
-               for _ in case_data["location"] :
-                if _["id"] == location_id :
-                    _["importance"] = 0
-                else :
-                    _["importance"] +=1
-        
-        # weapon clue 데이터 반영
-        for weapon in player["weapon_ids"] :
-            if weapon == weapon_id :
-               for _ in case_data["weapons"] :
-                if _["id"] == weapon_id :
-                    _["importance"] = 0
-                else :
-                    _["importance"] +=1
+        hand = player["hand"]
+
+        if suspect_id in hand["suspect_ids"]:
+            return {
+                "can_show": True,
+                "shown_by": player["name"],
+                "card_type": "suspect",
+                "card_id": suspect_id
+            }
+
+        if location_id in hand["location_ids"]:
+            return {
+                "can_show": True,
+                "shown_by": player["name"],
+                "card_type": "location",
+                "card_id": location_id
+            }
+
+        if weapon_id in hand["weapon_ids"]:
+            return {
+                "can_show": True,
+                "shown_by": player["name"],
+                "card_type": "weapon",
+                "card_id": weapon_id
+            }
+
+    return {
+        "can_show": False,
+        "message": "No player can show a card."
+    }
         
 
 # submit answer 함수
 @app.post("/guess_answer")
-def submit_answer(suspect_id : int, location : str, answer : str):
-    correct_suspect_id = case_data["answer"]["suspect_id"]
-    c_l = case_data["answer"]["location"]
-    c_w = case_data["answer"]["weapon"]
+def submit_answer(suspect_id: int, location_id: int, weapon_id: int):
+    answer = case_data["answer"]
 
-    if suspect_id == correct_suspect_id and location == c_l and answer == c_w :
-        return {
-            "correct": True,
-            "message": "정답입니다! 정답을 맞혔어요."
-        }
-    else:
+    is_correct = (
+        suspect_id == answer["suspect_id"]
+        and location_id == answer["location_id"]
+        and weapon_id == answer["weapon_id"]
+    )
 
-        return {
-            "correct": False,
-            "message": "오답입니다. 단서를 더 확인해보세요."
-        }
+    return {
+        "correct": is_correct,
+        "message": "정답입니다!" if is_correct else "오답입니다. 단서를 더 확인해보세요."
+    }
