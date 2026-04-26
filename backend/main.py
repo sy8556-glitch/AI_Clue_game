@@ -23,9 +23,13 @@ app.add_middleware(
 )
 
 
-# 데이터로드
+# 데이터로드 - case data
 with open("./case_data.json", "r", encoding="utf-8") as f:
     case_data = json.load(f)
+
+# 데이터로드 - user
+with open("./user.json", "r", encoding="utf-8") as f:
+    user_data = json.load(f)
 
 # 사건 정보 JSON 반환
 @app.get("/case")
@@ -94,10 +98,44 @@ def chat_with_ai(message: str, suspect_id: int | None = None):
 
     return {"response" : result.output_text}
 
-# 요청 형식 : POST /guess?suspect_id=2
+
 # 사용자가 용의자를 선택해서 /guess 로 보내면, 정답인지 아닌지 판단 후 결과 반환
 @app.post("/guess")
-def check_guess(suspect_id : int, location : str, answer : str):
+def check_guess(suspect_id: int, location_id: int, weapon_id: int):
+    players = user_data["players"]
+    for player in players : 
+
+        # suspects clue 데이터 반영
+        for suspicious_id in player["suspect_ids"] :
+            if suspicious_id == suspect_id :
+               for _ in case_data["suspects"] :
+                if _["id"] == suspicious_id :
+                    _["importance"] = 0
+                else :
+                    continue
+
+        # location clue 데이터 반영
+        for location in player["location_ids"] :
+            if location == location_id :
+               for _ in case_data["location"] :
+                if _["id"] == location_id :
+                    _["importance"] = 0
+                else :
+                    continue
+        
+        # weapon clue 데이터 반영
+        for weapon in player["weapon_ids"] :
+            if weapon == weapon_id :
+               for _ in case_data["weapons"] :
+                if _["id"] == weapon_id :
+                    _["importance"] = 0
+                else :
+                    continue
+        
+
+# submit answer 함수
+@app.post("/guess_answer")
+def submit_answer(suspect_id : int, location : str, answer : str):
     correct_suspect_id = case_data["answer"]["suspect_id"]
     c_l = case_data["answer"]["location"]
     c_w = case_data["answer"]["weapon"]
@@ -108,6 +146,7 @@ def check_guess(suspect_id : int, location : str, answer : str):
             "message": "정답입니다! 정답을 맞혔어요."
         }
     else:
+
         return {
             "correct": False,
             "message": "오답입니다. 단서를 더 확인해보세요."

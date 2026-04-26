@@ -1,0 +1,23 @@
+{
+  "case_id": 1,
+  "players": [
+    {
+      "player_id": 1,
+      "name": "Player 1",
+      "hand": {
+        "suspect_ids": [2],
+        "location_ids": [1],
+        "weapon_ids": [3]
+      }
+    },
+    {
+      "player_id": 2,
+      "name": "Player 2",
+      "hand": {
+        "suspect_ids": [3],
+        "location_ids": [2],
+        "weapon_ids": [1]
+      }
+    }
+  ]
+}
