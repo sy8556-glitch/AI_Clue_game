@@ -4,6 +4,10 @@ from dotenv import load_dotenv
 import os
 import json
 
+from fastapi import HTTPException
+from game.state import game_state
+from game.game_logic import is_current_player, next_turn
+
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -110,7 +114,15 @@ def chat_with_ai(message: str, suspect_id: int | None = None):
 # 사용자가 용의자를 선택해서 /guess 로 보내면, 정답인지 아닌지 판단 후 결과 반환
 @app.post("/guess")
 def check_guess(player_id: int, suspect_id: int, location_id: int, weapon_id: int):
+
+    if not is_current_player(game_state, player_id):
+        raise HTTPException(
+            status_code=403,
+            detail=f"지금은 {game_state.current_player}의 턴입니다."
+        )
+
     players = user_data["players"]
+    showing_cards = []
 
     for player in players:
         if player["player_id"] == player_id:
@@ -119,32 +131,36 @@ def check_guess(player_id: int, suspect_id: int, location_id: int, weapon_id: in
         hand = player["hand"]
 
         if suspect_id in hand["suspect_ids"]:
-            return {
+            showing_cards.append({
                 "can_show": True,
                 "shown_by": player["name"],
                 "card_type": "suspect",
                 "card_id": suspect_id
-            }
+            })
 
         if location_id in hand["location_ids"]:
-            return {
+            showing_cards.append({
                 "can_show": True,
                 "shown_by": player["name"],
                 "card_type": "location",
                 "card_id": location_id
-            }
+            })
 
         if weapon_id in hand["weapon_ids"]:
-            return {
+            showing_cards.append({
                 "can_show": True,
                 "shown_by": player["name"],
                 "card_type": "weapon",
                 "card_id": weapon_id
-            }
+            })
+
+    next_player = next_turn(game_state)
 
     return {
-        "can_show": False,
-        "message": "No player can show a card."
+        "message": "추리 완료",
+        "guess_by": player_id,
+        "shown_cards": showing_cards,
+        "next_player": next_player
     }
         
 
@@ -162,4 +178,12 @@ def submit_answer(suspect_id: int, location_id: int, weapon_id: int):
     return {
         "correct": is_correct,
         "message": "정답입니다!" if is_correct else "오답입니다. 단서를 더 확인해보세요."
+    }
+
+# 턴 상태 확인 
+@app.get("/state")
+def get_state():
+    return {
+        "current_player": game_state.current_player,
+        "players": game_state.players
     }
