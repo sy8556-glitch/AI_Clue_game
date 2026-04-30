@@ -47,12 +47,23 @@ def get_case_info():
 def get_suspects():
     return case_data["suspects"]
 
+# 장소 리스트 반환
+@app.get("/locations")
+def get_suspects():
+    return case_data["locations"]
+
+# 무기 리스트 반환
+@app.get("/weapons")
+def get_suspects():
+    return case_data["weapons"]
+
 
 # 단서 리스트 반환 & 단서를 반영하기
 @app.get("/clues")
 def get_clues():
     for clue in case_data["clues"] :
         clue_type = clue["type"] 
+        clue_type += 's'
         for single_case in case_data[clue_type] :
             if single_case["name"] == clue["name"] :
                 single_case["importance"] = 0 
@@ -156,13 +167,15 @@ def check_guess(player_id: int, suspect_id: int, location_id: int, weapon_id: in
 
     next_player = next_turn(game_state)
 
+    # 지금은 다른 사람들이 들고 있는 모든 카드를 다 보여줌
+    # 하나씩만 보여줄 필요성 o
     return {
         "message": "추리 완료",
         "guess_by": player_id,
         "shown_cards": showing_cards,
         "next_player": next_player
     }
-        
+    
 
 # submit answer 함수
 @app.post("/guess_answer")

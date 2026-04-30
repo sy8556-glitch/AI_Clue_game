@@ -6,17 +6,28 @@ import './App.css'
 import CaseCard from "./components/CaseCard";
 import SuspectList from "./components/SuspectList";
 import ClueList from "./components/ClueList";
+import LocationList from "./components/LocationList"
+import WeaponList from "./components/WeaponList"
+
 import Chat from "./components/Chat";
 
 
 function App() {
   const [caseData, setCaseData] = useState(null);
   const [suspects, setSuspects] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [selectedLocationId, setSelectedLocationId] = useState(null);
+
   const [clues, setClues] = useState([]);
+
   const [userChat, setUserChat] = useState([]);
   const [selectedSuspectId, setSelectedSuspectId] = useState(null);
   const [guessResult, setGuessResult] = useState(null);
 
+  const [weapons, setWeapons] = useState([]);
+  const [selectedWeaponId, setSelectedWeaponId] = useState(null);
+
+  // clue 초기 suspects, locations, weapons, clues 데이터 로딩
   useEffect(() => {
     fetch("http://127.0.0.1:8000/case")
       .then((res) => res.json())
@@ -33,22 +44,36 @@ function App() {
       .then((data) => setClues(data))
       .catch((err) => console.error("clues 불러오기 실패:", err));
 
+    fetch("http://127.0.0.1:8000/locations")
+      .then((res) => res.json())
+      .then((data) => setLocations(data))
+      .catch((err) => console.error("locations 불러오기 실패:", err));
+
+    fetch("http://127.0.0.1:8000/weapons")
+      .then((res) => res.json())
+      .then((data) => setWeapons(data))
+      .catch((err) => console.error("weapons 불러오기 실패:", err));
+
   }, []);
 
-  const handleGuess = async () => {
-    if (!selectedSuspectId) {
-    alert("먼저 용의자를 선택하세요!");
+
+    const handleGuess = async () => {
+  if (!selectedSuspectId || !selectedLocationId || !selectedWeaponId) {
+    alert("용의자, 장소, 무기를 모두 선택하세요!");
     return;
   }
 
-    const res = await fetch(
-      `http://127.0.0.1:8000/guess?suspect_id=${selectedSuspectId}`,
-      { method: "POST" }
-    );
+  const playerId = 1;
 
-    const data = await res.json();
+  const res = await fetch(
+    `http://127.0.0.1:8000/guess?player_id=${playerId}&suspect_id=${selectedSuspectId}&location_id=${selectedLocationId}&weapon_id=${selectedWeaponId}`,
+    { method: "POST" }
+  );
+
+  const data = await res.json();
     setGuessResult(data);
   };
+  
 
   return (
     <div className="app">
@@ -56,15 +81,35 @@ function App() {
 
       <div className="layout">
         <CaseCard caseData={caseData} />
+
         <SuspectList
           suspects={suspects}
           selectedSuspectId={selectedSuspectId}
           setSelectedSuspectId={setSelectedSuspectId}
         />
-        <button onClick={handleGuess}>범인 지목</button>
 
-        {guessResult && (
-          <p>{guessResult.message}</p>
+        <LocationList 
+          locations= {locations}
+          selectedLocationId={selectedLocationId}
+          setSelectedLocationId={setSelectedLocationId}
+          />
+        
+        <WeaponList
+          weapons={weapons}
+          selectedWeaponId={selectedWeaponId}
+          setSelectedWeaponId={setSelectedWeaponId}
+        />
+          
+        <button onClick={handleGuess}>추리 제출</button>
+
+        {guessResult && ( 
+          <div> 
+            <p>{guessResult.message}</p>
+            <p>{guessResult.guess_by}</p>
+            <p>{guessResult.shown_cards}</p>
+            <p>{guessResult.next_player}</p>
+
+          </div>
         )}
         <ClueList clues={clues} />
       </div>

@@ -9,8 +9,8 @@ function ClueList({ clues }) {
         <ul>
           {clues.map((clue, index) => (
             <li key={index}>
-                <strong>{clue.title}</strong>
-                <p>{clue.description}</p>
+                <strong>{clue.type}</strong>
+                <p>{clue.name}</p>
             </li>
           ))}
         </ul>

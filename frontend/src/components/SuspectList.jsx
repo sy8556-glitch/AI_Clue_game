@@ -17,7 +17,6 @@ function SuspectList({ suspects, selectedSuspectId, setSelectedSuspectId }) {
                 }}
                 style={{
                     cursor: "pointer",
-                    //  작동 안됨
                     backgroundColor:
                         Number(selectedSuspectId) === Number(suspect.id)? "#ff8787" : "transparent",
                 }}

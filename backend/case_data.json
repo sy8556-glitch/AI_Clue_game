@@ -26,7 +26,7 @@
 
     }
   ],
-  "location" : [
+  "locations" : [
     {
       "id": 1,
       "name" : "Living Room",
@@ -43,7 +43,36 @@
       "id" :3,
       "name" : "Library",
       "importance" : 5
-
+    },
+    {
+      "id" : 4, 
+      "name" : "Bedroom",
+      "importance" : 5
+    },
+    {
+      "id" : 5, 
+      "name" : "Bathroom",
+      "importance" : 5
+    },
+    {
+      "id" : 6, 
+      "name" : "Dining Room",
+      "importance" : 5
+    },
+    {
+      "id" : 7, 
+      "name" : "Basement",
+      "importance" : 5
+    },
+    {
+      "id" : 8, 
+      "name" : "Garage",
+      "importance" : 5
+    },
+    {
+      "id" : 9, 
+      "name" : "Study",
+      "importance" : 5
     }
   ],
   "weapons" : [
