@@ -1,7 +1,4 @@
 import { useState , useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 import CaseCard from "./components/CaseCard";
 import SuspectList from "./components/SuspectList";
@@ -102,16 +99,38 @@ function App() {
           
         <button onClick={handleGuess}>추리 제출</button>
 
-        {guessResult && ( 
-          <div> 
-            <p>{guessResult.message}</p>
-            <p>{guessResult.guess_by}</p>
-            <p>{guessResult.shown_cards}</p>
-            <p>{guessResult.next_player}</p>
+        {guessResult && (
+        <div className="guess-result-card">
+          <h2>{guessResult.message}</h2>
 
-          </div>
-        )}
-        <ClueList clues={clues} />
+          <p className="guess-player">
+            추리한 플레이어: <strong>{guessResult.guess_by}</strong>
+          </p>
+
+          {guessResult.shown_cards && (
+            <div className="shown-card-box">
+              <p className="section-title">공개된 단서</p>
+
+              <div className="shown-card">
+                <p>
+                  <strong>{guessResult.shown_cards.shown_by}</strong> 가 카드를 보여줬어요
+                </p>
+                <p>
+                  카드 종류: <strong>{guessResult.shown_cards.card_type}</strong>
+                </p>
+                <p>
+                  카드 ID: <strong>{guessResult.shown_cards.card_id}</strong>
+                </p>
+              </div>
+            </div>
+          )}
+
+          <p className="next-player">
+            다음 턴: <strong>{guessResult.next_player}</strong>
+          </p>
+        </div>
+      )}
+              <ClueList clues={clues} />
       </div>
 
       <div className = "chat">

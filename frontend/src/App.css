@@ -215,3 +215,48 @@ ul {
     border-right-color: var(--border);
   }
 }
+
+.guess-result-card {
+  width: 280px;
+  padding: 20px;
+  border-radius: 18px;
+  background: #1f2937;
+  color: white;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  text-align: left;
+}
+
+.guess-result-card h2 {
+  margin-top: 0;
+  color: #f87171;
+  text-align: center;
+}
+
+.guess-player,
+.next-player {
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+.shown-card-box {
+  margin-top: 14px;
+}
+
+.section-title {
+  font-weight: bold;
+  color: #facc15;
+  margin-bottom: 8px;
+}
+
+.shown-card {
+  background: #374151;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 10px;
+  border-left: 4px solid #f87171;
+}
+
+.shown-card p {
+  margin: 6px 0;
+  font-size: 14px;
+}

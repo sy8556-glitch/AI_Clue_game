@@ -126,11 +126,11 @@ def chat_with_ai(message: str, suspect_id: int | None = None):
 @app.post("/guess")
 def check_guess(player_id: int, suspect_id: int, location_id: int, weapon_id: int):
 
-    if not is_current_player(game_state, player_id):
-        raise HTTPException(
-            status_code=403,
-            detail=f"지금은 {game_state.current_player}의 턴입니다."
-        )
+    # if not is_current_player(game_state, player_id):
+    #     raise HTTPException(
+    #         status_code=403,
+    #         detail=f"지금은 {game_state.current_player}의 턴입니다."
+    #     )
 
     players = user_data["players"]
     showing_cards = []
@@ -172,7 +172,7 @@ def check_guess(player_id: int, suspect_id: int, location_id: int, weapon_id: in
     return {
         "message": "추리 완료",
         "guess_by": player_id,
-        "shown_cards": showing_cards,
+        "shown_cards": showing_cards[0],
         "next_player": next_player
     }
     
