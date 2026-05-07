@@ -134,7 +134,7 @@ function App() {
       </div>
 
       <div className = "chat">
-        <Chat userChat= {userChat}></Chat>
+        <Chat userChat= {userChat} suspects={suspects}></Chat>
       </div>
 
     </div>

@@ -260,3 +260,77 @@ ul {
   margin: 6px 0;
   font-size: 14px;
 }
+
+.chat-card {
+  width: 620px;
+  margin: 24px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+
+.chat-card h2 {
+  text-align: center;
+  margin-bottom: 18px;
+  font-size: 26px;
+}
+
+.chat-controls {
+  display: grid;
+  grid-template-columns: 160px 1fr 70px;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.suspect-select,
+.chat-textarea {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.chat-textarea {
+  resize: none;
+  min-height: 90px;
+}
+
+.send-button {
+  border: none;
+  border-radius: 12px;
+  background: #222;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background: #444;
+}
+
+.result-area {
+  margin-top: 18px;
+}
+
+.empty-message {
+  text-align: center;
+  color: #999;
+}
+
+.chat-bubble {
+  background: #f4f1ec;
+  border-left: 5px solid #6b5b4b;
+  padding: 16px;
+  border-radius: 14px;
+  line-height: 1.6;
+}
+
+.speaker {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b5b4b;
+  margin-bottom: 6px;
+}

@@ -27,3 +27,6 @@ python -m uvicorn main:app --reload
 cd frontend
 npm install
 npm run dev
+
+## 🎥 Demo
+[Instagram Video Link]

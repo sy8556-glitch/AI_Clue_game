@@ -1,51 +1,83 @@
-import { useState } from 'react'
+import { useState } from "react";
 
+function Chat({ userChat, suspects }) {
+  const [input, setInput] = useState("");
+  const [selectedSuspectId, setSelectedSuspectId] = useState("");
+  const [data, setData] = useState(null);
 
-function Chat({ userChat }){
-    const [input, setInput] = useState("");
-    // handle submit 함수
-    // 사용자 입력을 서버에 보내고, 응답을 받아서 화면에 반영하는 함수
-    const handleSubmit = async () => {
+  const handleSubmit = async () => {
     if (!input) return;
 
+    if (!selectedSuspectId) {
+      alert("대화할 용의자를 선택하세요!");
+      return;
+    }
+
     const res = await fetch(
-        `http://127.0.0.1:8000/chat?message=${encodeURIComponent(input)}`,
-        { method: "POST" }
+      `http://127.0.0.1:8000/chat?message=${encodeURIComponent(
+        input
+      )}&suspect_id=${selectedSuspectId}`,
+      { method: "POST" }
     );
 
-    const data = await res.json();
+    const result = await res.json();
 
-    console.log(data.response);
-
+    setData(result);
     setInput("");
-    };
+  };
 
-    return (
-        <div className = "chat">
-            <h2>Chat to gpt</h2>
+  return (
+    <div className="chat-card">
+  <h2>Chat to suspects</h2>
 
-            { !userChat ? (
-                <p>chat box 불러오는 중...</p>
-            ) : (
-                <div className = "chat-area">
-                    <label htmlFor="chat">Tell us your story:</label>
+  {!userChat ? (
+    <p>chat box 불러오는 중...</p>
+  ) : (
+    <>
+      <div className="chat-controls">
+        <select
+          className="suspect-select"
+          value={selectedSuspectId}
+          onChange={(e) => setSelectedSuspectId(e.target.value)}
+        >
+          <option value="">용의자를 선택하세요</option>
 
-                    <textarea
-                        id="chat"
-                        name="chat"
-                        rows="5"
-                        cols="33"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="메시지를 입력하세요..."
-                        />
-                    <button onClick={handleSubmit}>전송</button>
-                </div>
-            )
-        }
-        </div>
-    )
+          {suspects.map((suspect) => (
+            <option key={suspect.id} value={suspect.id}>
+              {suspect.name}
+            </option>
+          ))}
+        </select>
+
+        <textarea
+          className="chat-textarea"
+          id="chat"
+          name="chat"
+          rows="4"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="용의자에게 질문해보세요..."
+        />
+
+        <button className="send-button" onClick={handleSubmit}>
+          전송
+        </button>
+      </div>
+
+      <div className="result-area">
+        {!data ? (
+          <p className="empty-message">아직 대화 결과가 없습니다.</p>
+        ) : (
+          <div className="chat-bubble">
+            <span className="speaker">Suspect</span>
+            <p>{data.response}</p>
+          </div>
+        )}
+      </div>
+    </>
+  )}
+</div>
+  );
 }
-
 
 export default Chat;
